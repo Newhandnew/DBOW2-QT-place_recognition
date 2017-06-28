@@ -147,6 +147,19 @@
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
+   <widget class="QPushButton" name="btn_loadDatabase">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>250</y>
+      <width>89</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Load DB</string>
+    </property>
+   </widget>
    <zorder>camera</zorder>
    <zorder>img_temp</zorder>
    <zorder>img_recognition</zorder>
@@ -155,6 +168,7 @@
    <zorder>btn_startCamera</zorder>
    <zorder>btn_stopCamera</zorder>
    <zorder>groupBox</zorder>
+   <zorder>btn_loadDatabase</zorder>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">

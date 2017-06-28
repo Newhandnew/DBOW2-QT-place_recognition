@@ -14,8 +14,13 @@ using namespace std;
 using namespace DBoW2;
 
 class DBow2 {
+public:
+    void setDatabase();
 private:
     void loadVocabulary(String path);
+    Surf64Vocabulary voc;
+    Surf64Database vocDatabase;
+
 };
 
 

@@ -1,15 +1,27 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-//VideoCapture cap(0);
+
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    const int imagePeriod = 1000 / 40;   // ms
+    // camera setting
+    int cameraFPS = 25;
     imageTimer = new QTimer(this);
-    imageTimer->setInterval(imagePeriod);
+    imageTimer->setInterval(getPeriod(cameraFPS));
     connect(imageTimer, SIGNAL(timeout()), this, SLOT(getCamera()));
+    // save image setting
+    int saveImageFPS = 2;
+    saveTimer = new QTimer(this);
+    saveTimer->setInterval(getPeriod(saveImageFPS));
+    connect(saveTimer, SIGNAL(timeout()), this, SLOT(saveImage()));
+    // recognition setting
+    int recognitionFPS = 1;
+    recognitionTimer = new QTimer(this);
+    recognitionTimer->setInterval(getPeriod(recognitionFPS));
+    connect(recognitionTimer, SIGNAL(timeout()), this, SLOT(recognition()));
 }
 
 MainWindow::~MainWindow()
@@ -18,7 +30,11 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::openCamera(int deviceNum){
+int MainWindow::getPeriod(int fps) {
+    return 1000 / fps;      //ms
+}
+
+void MainWindow::openCamera(int deviceNum) {
     cap.open(deviceNum);
     if(cap.isOpened() != 1)
     {
@@ -64,6 +80,13 @@ void MainWindow::showVideo(QImage imgQFrame)
     ui->camera->show();
 }
 
+void MainWindow::saveImage() {
+
+}
+
+void MainWindow::recognition() {
+
+}
 
 void MainWindow::on_btn_startCamera_clicked()
 {
@@ -74,12 +97,20 @@ void MainWindow::on_btn_startCamera_clicked()
     else if(ui->radio_Camera2->isChecked()) {
         deviceNumber = 1;
     }
-
     openCamera(deviceNumber);
     imageTimer->start();
+    saveTimer->start();
+    recognitionTimer->start();
 }
 
 void MainWindow::on_btn_stopCamera_clicked()
 {
     imageTimer->stop();
+    saveTimer->stop();
+    recognitionTimer->stop();
+}
+
+void MainWindow::on_btn_loadDatabase_clicked()
+{
+    database.setDatabase();
 }

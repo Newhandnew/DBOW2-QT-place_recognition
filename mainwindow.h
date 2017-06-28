@@ -7,6 +7,8 @@
 #include <stdio.h>
 #include <iostream>
 
+#include "dbow2.h"
+
 using namespace cv;
 using namespace std;
 
@@ -24,19 +26,27 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    int getPeriod(int fps);
     QImage getQImage(cv::Mat &imgCV);
     void openCamera(int deviceNum);
     void showVideo(QImage imgQFrame);
+
     QTimer *imageTimer;
+    QTimer *saveTimer;
+    QTimer *recognitionTimer;
     Mat frame;
     VideoCapture cap;
+    DBow2 database;
 
 public slots:
     void getCamera();
+    void saveImage();
+    void recognition();
 
 private slots:
     void on_btn_startCamera_clicked();
     void on_btn_stopCamera_clicked();
+    void on_btn_loadDatabase_clicked();
 };
 
 #endif // MAINWINDOW_H
