@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>675</width>
-    <height>317</height>
+    <height>314</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,10 +30,10 @@
    <widget class="QPushButton" name="btn_startCamera">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>0</y>
+      <x>200</x>
+      <y>10</y>
       <width>89</width>
-      <height>25</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="text">
@@ -43,10 +43,10 @@
    <widget class="QPushButton" name="btn_stopCamera">
     <property name="geometry">
      <rect>
-      <x>90</x>
-      <y>0</y>
+      <x>300</x>
+      <y>10</y>
       <width>89</width>
-      <height>25</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="text">
@@ -79,6 +79,82 @@
      <string>recognition</string>
     </property>
    </widget>
+   <widget class="QGroupBox" name="groupBox">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>0</y>
+      <width>181</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Camera selection</string>
+    </property>
+    <widget class="QRadioButton" name="radio_Camera1">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>20</y>
+       <width>87</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Camera1</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="radio_Camera2">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>20</y>
+       <width>91</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Camera2</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="Line" name="line">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>0</y>
+      <width>20</width>
+      <height>291</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="Line" name="line_2">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>140</y>
+      <width>261</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <zorder>camera</zorder>
+   <zorder>img_temp</zorder>
+   <zorder>img_recognition</zorder>
+   <zorder>line</zorder>
+   <zorder>line_2</zorder>
+   <zorder>btn_startCamera</zorder>
+   <zorder>btn_stopCamera</zorder>
+   <zorder>groupBox</zorder>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">

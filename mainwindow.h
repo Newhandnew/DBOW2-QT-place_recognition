@@ -5,8 +5,11 @@
 #include <QTimer>
 #include <opencv2/opencv.hpp>
 #include <stdio.h>
+#include <iostream>
 
 using namespace cv;
+using namespace std;
+
 namespace Ui {
 class MainWindow;
 }
@@ -22,12 +25,14 @@ public:
 private:
     Ui::MainWindow *ui;
     QImage getQImage(cv::Mat &imgCV);
+    void openCamera(int deviceNum);
+    void showVideo(QImage imgQFrame);
     QTimer *imageTimer;
     Mat frame;
     VideoCapture cap;
 
 public slots:
-    void showVideo();
+    void getCamera();
 
 private slots:
     void on_btn_startCamera_clicked();

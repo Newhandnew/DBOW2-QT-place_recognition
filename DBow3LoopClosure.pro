@@ -23,15 +23,24 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 unix:{
 CONFIG += link_pkgconfig
-PKGCONFIG += opencv
+PKGCONFIG += opencv \
+             eigen3 \
 }
+
+INCLUDEPATH = /usr/local/include/DBoW2 \
+              /usr/local/include/DLib
+
+LIBS += -L/usr/local/lib/libDBoW2.so -lDBoW2 \
+        -L/usr/local/lib/libDLib.so -lDLib
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    dbow2.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    dbow2.h
 
 FORMS += \
         mainwindow.ui

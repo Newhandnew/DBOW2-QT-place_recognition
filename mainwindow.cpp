@@ -9,14 +9,7 @@ MainWindow::MainWindow(QWidget *parent) :
     const int imagePeriod = 1000 / 40;   // ms
     imageTimer = new QTimer(this);
     imageTimer->setInterval(imagePeriod);
-    connect(imageTimer, SIGNAL(timeout()), this, SLOT(showVideo()));
-    cap.open(0);
-    if(cap.isOpened() != 1)
-    {
-        printf("error in capturing\n");
-    }
-    printf("start streaming...\n");
-
+    connect(imageTimer, SIGNAL(timeout()), this, SLOT(getCamera()));
 }
 
 MainWindow::~MainWindow()
@@ -25,10 +18,21 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::openCamera(int deviceNum){
+    cap.open(deviceNum);
+    if(cap.isOpened() != 1)
+    {
+        cout << "error in capturing " << deviceNum << endl;
+    }
+    else {
+        cout << "camera " << deviceNum << " start streaming..." << endl;
+    }
+}
+
 QImage MainWindow::getQImage(cv::Mat &imgCV){
 
     static QVector<QRgb> colorTable;
-
+    QImage imgReturn;
     if (colorTable.isEmpty()){
         for (int i = 0; i < 256; i++){
             colorTable.push_back(qRgb(i, i, i));
@@ -37,19 +41,24 @@ QImage MainWindow::getQImage(cv::Mat &imgCV){
 
     if (imgCV.type() == CV_8UC3){
         QImage imgQImage = QImage((const unsigned char*)(imgCV.data), imgCV.cols, imgCV.rows, imgCV.step, QImage::Format_RGB888);
-        return imgQImage.rgbSwapped();
+        imgReturn = imgQImage.rgbSwapped();
     }
     else if (imgCV.type() == CV_8UC1){
         QImage imgQImage = QImage((const unsigned char*)(imgCV.data), imgCV.cols, imgCV.rows, imgCV.step, QImage::Format_Indexed8);
         imgQImage.setColorTable(colorTable);
-        return imgQImage;
+        imgReturn = imgQImage;
     }
+    return imgReturn;
 }
 
-void MainWindow::showVideo()
-{
+void MainWindow::getCamera() {
     cap >> frame;
     QImage imgQFrame = getQImage(frame);
+    showVideo(imgQFrame);
+}
+
+void MainWindow::showVideo(QImage imgQFrame)
+{
     ui->camera->setScaledContents(true);
     ui->camera->setPixmap(QPixmap::fromImage(imgQFrame));
     ui->camera->show();
@@ -58,6 +67,15 @@ void MainWindow::showVideo()
 
 void MainWindow::on_btn_startCamera_clicked()
 {
+    int deviceNumber;
+    if(ui->radio_Camera1->isChecked()) {
+        deviceNumber = 0;
+    }
+    else if(ui->radio_Camera2->isChecked()) {
+        deviceNumber = 1;
+    }
+
+    openCamera(deviceNumber);
     imageTimer->start();
 }
 
