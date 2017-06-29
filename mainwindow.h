@@ -30,13 +30,15 @@ private:
     QImage getQImage(cv::Mat &imgCV);
     void openCamera(int deviceNum);
     void showVideo(QImage imgQFrame);
+    void showSaveImage(QImage imgQFrame);
+    void showRecognition(QImage imgQFrame);
 
     QTimer *imageTimer;
     QTimer *saveTimer;
     QTimer *recognitionTimer;
     Mat frame;
     VideoCapture cap;
-    DBow2 database;
+    DBow2 *database;
 
 public slots:
     void getCamera();

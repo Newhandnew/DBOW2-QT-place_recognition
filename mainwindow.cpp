@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    database = new DBow2(); //initial DBow2
     // camera setting
     int cameraFPS = 25;
     imageTimer = new QTimer(this);
@@ -73,6 +74,17 @@ void MainWindow::getCamera() {
     showVideo(imgQFrame);
 }
 
+void MainWindow::saveImage() {
+    database->checkKeyFrame(frame);
+    QImage imgQFrame = getQImage(frame);
+    showSaveImage(imgQFrame);
+}
+
+void MainWindow::recognition() {
+    QImage imgQFrame = getQImage(frame);
+    showRecognition(imgQFrame);
+}
+
 void MainWindow::showVideo(QImage imgQFrame)
 {
     ui->camera->setScaledContents(true);
@@ -80,12 +92,18 @@ void MainWindow::showVideo(QImage imgQFrame)
     ui->camera->show();
 }
 
-void MainWindow::saveImage() {
-
+void MainWindow::showSaveImage(QImage imgQFrame)
+{
+    ui->img_temp->setScaledContents(true);
+    ui->img_temp->setPixmap(QPixmap::fromImage(imgQFrame));
+    ui->img_temp->show();
 }
 
-void MainWindow::recognition() {
-
+void MainWindow::showRecognition(QImage imgQFrame)
+{
+    ui->img_recognition->setScaledContents(true);
+    ui->img_recognition->setPixmap(QPixmap::fromImage(imgQFrame));
+    ui->img_recognition->show();
 }
 
 void MainWindow::on_btn_startCamera_clicked()
@@ -112,5 +130,5 @@ void MainWindow::on_btn_stopCamera_clicked()
 
 void MainWindow::on_btn_loadDatabase_clicked()
 {
-    database.setDatabase();
+    database->setDatabase();
 }
