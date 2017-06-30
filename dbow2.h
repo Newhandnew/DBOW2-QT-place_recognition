@@ -19,6 +19,7 @@ public:
     DBow2();
     void setDatabase();
     void checkKeyFrame(Mat frame);
+    void queryResult();
 
 private:
     void loadVocabulary(String path);
@@ -31,6 +32,7 @@ private:
     const string imgSaveType = ".jpg";
     int imageSaveNumber;
 
+    vector<vector<float>> currentDescriptors;
 };
 
 

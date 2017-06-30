@@ -21,17 +21,10 @@ void DBow2::setDatabase() {
 }
 
 void DBow2::checkKeyFrame(Mat frame) {
-    vector<vector<float>> descriptors;
-    extract_surf(frame, descriptors);
-    vocDatabase.add(descriptors);
+    extract_surf(frame, currentDescriptors);
+    vocDatabase.add(currentDescriptors);
+//    queryResult();
     saveImage(frame);
-}
-
-void DBow2::saveImage(Mat image) {
-    stringstream imgName;
-    imgName << imgSaveDir << imageSaveNumber << imgSaveType;
-    imwrite(imgName.str(), image);
-    imageSaveNumber++;
 }
 
 void DBow2::extract_surf(const Mat & img, vector<vector<float>>& outDescriptors) {
@@ -52,4 +45,18 @@ void DBow2::extract_surf(const Mat & img, vector<vector<float>>& outDescriptors)
         outDescriptors[j].resize(L);
         std::copy(descriptors.begin() + i, descriptors.begin() + i + L, outDescriptors[j].begin());
     }
+}
+
+void DBow2::saveImage(Mat image) {
+    stringstream imgName;
+    imgName << imgSaveDir << imageSaveNumber << imgSaveType;
+    imwrite(imgName.str(), image);
+    imageSaveNumber++;
+}
+
+void DBow2::queryResult() {
+    QueryResults result;
+    vocDatabase.query(currentDescriptors, result, 2);       // need to change because descriptor have to calculate
+    cout << result << endl;
+    cout << "score: " << result[0].Score << endl;
 }
