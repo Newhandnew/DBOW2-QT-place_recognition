@@ -20,11 +20,29 @@ void DBow2::setDatabase() {
     cout << "Done set database" << endl;
 }
 
-void DBow2::checkKeyFrame(Mat frame) {
+bool DBow2::checkKeyFrame(Mat frame, Mat &imgMatch) {
+    double scoreThreshold = 0.1;
+    bool result;
+    QueryResults query;
+    vector<vector<float>> currentDescriptors;
     extract_surf(frame, currentDescriptors);
-    vocDatabase.add(currentDescriptors);
-//    queryResult();
-    saveImage(frame);
+    query = queryResult(currentDescriptors);
+    if (query.size() == 0) {        // for firse time
+        vocDatabase.add(currentDescriptors);
+        saveImage(frame);
+        result = false;
+    }
+    else {
+        if (query[0].Score < scoreThreshold) {
+            vocDatabase.add(currentDescriptors);
+            saveImage(frame);
+            result = false;
+        }
+        else {
+            result = true;
+        }
+    }
+    return result;
 }
 
 void DBow2::extract_surf(const Mat & img, vector<vector<float>>& outDescriptors) {
@@ -54,9 +72,9 @@ void DBow2::saveImage(Mat image) {
     imageSaveNumber++;
 }
 
-void DBow2::queryResult() {
+QueryResults DBow2::queryResult(vector<vector<float>> &currentDescriptors) {
     QueryResults result;
     vocDatabase.query(currentDescriptors, result, 2);       // need to change because descriptor have to calculate
     cout << result << endl;
-    cout << "score: " << result[0].Score << endl;
+    return result;
 }

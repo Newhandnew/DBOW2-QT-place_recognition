@@ -35,7 +35,7 @@ private:
 
     QTimer *imageTimer;
     QTimer *saveTimer;
-    QTimer *recognitionTimer;
+//    QTimer *recognitionTimer;
     Mat frame;
     VideoCapture cap;
     DBow2 *database;

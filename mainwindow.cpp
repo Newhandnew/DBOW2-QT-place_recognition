@@ -19,10 +19,10 @@ MainWindow::MainWindow(QWidget *parent) :
     saveTimer->setInterval(getPeriod(saveImageFPS));
     connect(saveTimer, SIGNAL(timeout()), this, SLOT(saveImage()));
     // recognition setting
-    int recognitionFPS = 1;
-    recognitionTimer = new QTimer(this);
-    recognitionTimer->setInterval(getPeriod(recognitionFPS));
-    connect(recognitionTimer, SIGNAL(timeout()), this, SLOT(recognition()));
+//    int recognitionFPS = 1;
+//    recognitionTimer = new QTimer(this);
+//    recognitionTimer->setInterval(getPeriod(recognitionFPS));
+//    connect(recognitionTimer, SIGNAL(timeout()), this, SLOT(recognition()));
 }
 
 MainWindow::~MainWindow()
@@ -75,9 +75,22 @@ void MainWindow::getCamera() {
 }
 
 void MainWindow::saveImage() {
-    database->checkKeyFrame(frame);
-    QImage imgQFrame = getQImage(frame);
-    showSaveImage(imgQFrame);
+    Mat imgMatching;
+    bool match;
+    match = database->checkKeyFrame(frame, imgMatching);
+    if(match) {
+        QImage imgQFrame = getQImage(frame);
+        showSaveImage(imgQFrame);
+//        QImage imgQMatch = getQImage(imgMatching);
+//        showRecognition(imgQMatch);
+    }
+    else {
+        QImage imgQFrame;
+//        imgQFrame = getQImage(imgMatching);
+        showSaveImage(imgQFrame);
+        showRecognition(imgQFrame);
+    }
+
 }
 
 void MainWindow::recognition() {
@@ -118,14 +131,14 @@ void MainWindow::on_btn_startCamera_clicked()
     openCamera(deviceNumber);
     imageTimer->start();
     saveTimer->start();
-    recognitionTimer->start();
+//    recognitionTimer->start();
 }
 
 void MainWindow::on_btn_stopCamera_clicked()
 {
     imageTimer->stop();
     saveTimer->stop();
-    recognitionTimer->stop();
+//    recognitionTimer->stop();
 }
 
 void MainWindow::on_btn_loadDatabase_clicked()

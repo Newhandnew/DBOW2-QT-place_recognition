@@ -18,13 +18,13 @@ class DBow2 {
 public:
     DBow2();
     void setDatabase();
-    void checkKeyFrame(Mat frame);
-    void queryResult();
+    bool checkKeyFrame(Mat frame, Mat& imgMatch);
 
 private:
     void loadVocabulary(String path);
     void saveImage(Mat image);
     void extract_surf(const Mat & img, vector<vector<float>>& outDescriptors);
+    QueryResults queryResult(vector<vector<float>>& currentDescriptors);
 
     Surf64Vocabulary voc;
     Surf64Database vocDatabase;
@@ -32,7 +32,6 @@ private:
     const string imgSaveType = ".jpg";
     int imageSaveNumber;
 
-    vector<vector<float>> currentDescriptors;
 };
 
 
