@@ -23,6 +23,7 @@ public:
 private:
     void loadVocabulary(String path);
     void saveImage(Mat image);
+    void loadMachedImage(unsigned int name, Mat& imgMatch);
     void extract_surf(const Mat & img, vector<vector<float>>& outDescriptors);
     QueryResults queryResult(vector<vector<float>>& currentDescriptors);
 

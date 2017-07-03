@@ -14,15 +14,10 @@ MainWindow::MainWindow(QWidget *parent) :
     imageTimer->setInterval(getPeriod(cameraFPS));
     connect(imageTimer, SIGNAL(timeout()), this, SLOT(getCamera()));
     // save image setting
-    int saveImageFPS = 2;
+    int checkImageFPS = 2;
     saveTimer = new QTimer(this);
-    saveTimer->setInterval(getPeriod(saveImageFPS));
-    connect(saveTimer, SIGNAL(timeout()), this, SLOT(saveImage()));
-    // recognition setting
-//    int recognitionFPS = 1;
-//    recognitionTimer = new QTimer(this);
-//    recognitionTimer->setInterval(getPeriod(recognitionFPS));
-//    connect(recognitionTimer, SIGNAL(timeout()), this, SLOT(recognition()));
+    saveTimer->setInterval(getPeriod(checkImageFPS));
+    connect(saveTimer, SIGNAL(timeout()), this, SLOT(checkImage()));
 }
 
 MainWindow::~MainWindow()
@@ -74,15 +69,16 @@ void MainWindow::getCamera() {
     showVideo(imgQFrame);
 }
 
-void MainWindow::saveImage() {
+void MainWindow::checkImage() {
     Mat imgMatching;
     bool match;
     match = database->checkKeyFrame(frame, imgMatching);
     if(match) {
         QImage imgQFrame = getQImage(frame);
         showSaveImage(imgQFrame);
-//        QImage imgQMatch = getQImage(imgMatching);
-//        showRecognition(imgQMatch);
+
+        QImage imgQMatch = getQImage(imgMatching);
+        showRecognition(imgQMatch);
     }
     else {
         QImage imgQFrame;

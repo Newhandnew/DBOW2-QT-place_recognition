@@ -40,6 +40,7 @@ bool DBow2::checkKeyFrame(Mat frame, Mat &imgMatch) {
         }
         else {
             result = true;
+            loadMachedImage(query[0].Id, imgMatch);
         }
     }
     return result;
@@ -70,6 +71,12 @@ void DBow2::saveImage(Mat image) {
     imgName << imgSaveDir << imageSaveNumber << imgSaveType;
     imwrite(imgName.str(), image);
     imageSaveNumber++;
+}
+
+void DBow2::loadMachedImage(unsigned int name, Mat& imgMatch) {
+    stringstream imgName;
+    imgName << imgSaveDir << name << imgSaveType;
+    imgMatch = imread(imgName.str(), CV_LOAD_IMAGE_COLOR);
 }
 
 QueryResults DBow2::queryResult(vector<vector<float>> &currentDescriptors) {

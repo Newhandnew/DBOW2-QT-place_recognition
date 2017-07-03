@@ -35,14 +35,13 @@ private:
 
     QTimer *imageTimer;
     QTimer *saveTimer;
-//    QTimer *recognitionTimer;
     Mat frame;
     VideoCapture cap;
     DBow2 *database;
 
 public slots:
     void getCamera();
-    void saveImage();
+    void checkImage();
     void recognition();
 
 private slots:
