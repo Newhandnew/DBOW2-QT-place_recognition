@@ -20,7 +20,7 @@ void DBow2::setDatabase() {
     cout << "Done set database" << endl;
 }
 
-bool DBow2::checkKeyFrame(Mat frame, Mat &imgMatch) {
+bool DBow2::checkKeyFrame(Mat frame, Mat &imgMatch, unsigned int &matchId) {
     double scoreThreshold = 0.1;
     bool result;
     QueryResults query;
@@ -38,6 +38,7 @@ bool DBow2::checkKeyFrame(Mat frame, Mat &imgMatch) {
             if ((currentMatchedId - query[0].Id) > 1) {      // new matched image
                 result = true;
                 loadMachedImage(query[0].Id, imgMatch);
+                matchId = query[0].Id;
             }
             else {                                      // same image
                 result = false;

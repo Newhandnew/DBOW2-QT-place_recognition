@@ -18,7 +18,7 @@ class DBow2 {
 public:
     DBow2();
     void setDatabase();
-    bool checkKeyFrame(Mat frame, Mat& imgMatch);
+    bool checkKeyFrame(Mat frame, Mat& imgMatch, unsigned int &matchId);
 
 private:
     void loadVocabulary(String path);

@@ -72,19 +72,23 @@ void MainWindow::getCamera() {
 void MainWindow::checkImage() {
     Mat imgMatching;
     bool match;
-    match = database->checkKeyFrame(frame, imgMatching);
+    unsigned int matchId;
+    match = database->checkKeyFrame(frame, imgMatching, matchId);
     if(match) {
         QImage imgQFrame = getQImage(frame);
         showSaveImage(imgQFrame);
 
         QImage imgQMatch = getQImage(imgMatching);
         showRecognition(imgQMatch);
+        std::string s = std::to_string(matchId);
+//        char const *pchar = s.c_str();  //use char const* as target type
+        ui->label_recognitionId->setText(s.c_str());
     }
     else {
         QImage imgQFrame;
-//        imgQFrame = getQImage(imgMatching);
         showSaveImage(imgQFrame);
         showRecognition(imgQFrame);
+        ui->label_recognitionId->setText("No recognition");
     }
 
 }

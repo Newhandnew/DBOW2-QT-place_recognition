@@ -160,6 +160,19 @@
      <string>Load DB</string>
     </property>
    </widget>
+   <widget class="QLabel" name="label_recognitionId">
+    <property name="geometry">
+     <rect>
+      <x>460</x>
+      <y>160</y>
+      <width>171</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>ID</string>
+    </property>
+   </widget>
    <zorder>camera</zorder>
    <zorder>img_temp</zorder>
    <zorder>img_recognition</zorder>
@@ -169,6 +182,7 @@
    <zorder>btn_stopCamera</zorder>
    <zorder>groupBox</zorder>
    <zorder>btn_loadDatabase</zorder>
+   <zorder>label_recognitionId</zorder>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
