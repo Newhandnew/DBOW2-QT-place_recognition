@@ -24,6 +24,7 @@ bool DBow2::checkKeyFrame(Mat frame, Mat &imgMatch) {
     double scoreThreshold = 0.1;
     bool result;
     QueryResults query;
+    static unsigned int currentMatchedId;
     vector<vector<float>> currentDescriptors;
     extract_surf(frame, currentDescriptors);
     query = queryResult(currentDescriptors);
@@ -33,14 +34,20 @@ bool DBow2::checkKeyFrame(Mat frame, Mat &imgMatch) {
         result = false;
     }
     else {
-        if (query[0].Score < scoreThreshold) {
+        if (query[0].Score > scoreThreshold) {
+            if ((currentMatchedId - query[0].Id) > 1) {      // new matched image
+                result = true;
+                loadMachedImage(query[0].Id, imgMatch);
+            }
+            else {                                      // same image
+                result = false;
+            }
+        }
+        else {                                          // add to database
+            currentMatchedId = imageSaveNumber;
             vocDatabase.add(currentDescriptors);
             saveImage(frame);
             result = false;
-        }
-        else {
-            result = true;
-            loadMachedImage(query[0].Id, imgMatch);
         }
     }
     return result;
