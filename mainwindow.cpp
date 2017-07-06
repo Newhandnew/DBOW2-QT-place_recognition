@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <time.h>
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -73,6 +74,7 @@ void MainWindow::checkImage() {
     Mat imgMatching;
     bool match;
     unsigned int matchId;
+    clock_t start = clock();
     match = database->checkKeyFrame(frame, imgMatching, matchId);
     if(match) {
         QImage imgQFrame = getQImage(frame);
@@ -90,7 +92,9 @@ void MainWindow::checkImage() {
         showRecognition(imgQFrame);
         ui->label_recognitionId->setText("No recognition");
     }
-
+    clock_t end = clock();
+    float spendSeconds = (float)(end - start) / CLOCKS_PER_SEC;
+    cout<< "time: " << spendSeconds << endl;
 }
 
 void MainWindow::recognition() {

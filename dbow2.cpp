@@ -22,6 +22,8 @@ void DBow2::setDatabase() {
 
 bool DBow2::checkKeyFrame(Mat frame, Mat &imgMatch, unsigned int &matchId) {
     double scoreThreshold = 0.1;
+    double checkTwiceThreshold = 0.07;
+    static int checkTwice;
     bool result;
     QueryResults query;
     static unsigned int currentMatchedId;
@@ -43,12 +45,19 @@ bool DBow2::checkKeyFrame(Mat frame, Mat &imgMatch, unsigned int &matchId) {
             else {                                      // same image
                 result = false;
             }
+            checkTwice = 0;
+        }
+        else if ((query[0].Score < scoreThreshold) && (query[0].Score > checkTwiceThreshold) && (checkTwice < 3)) {
+            checkTwice++;
+            result = false;
         }
         else {                                          // add to database
+            cout << "save image " << imageSaveNumber << endl;
             currentMatchedId = imageSaveNumber;
             vocDatabase.add(currentDescriptors);
             saveImage(frame);
             result = false;
+            checkTwice = 0;
         }
     }
     return result;
